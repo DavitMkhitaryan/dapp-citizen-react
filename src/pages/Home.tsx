@@ -1,9 +1,8 @@
-import { useEffect, useState, useMemo } from "react";
 import Modal from "../components/Modal";
 import Pagination from "../components/Pagination";
-import useConnector from "../hooks/useConnector";
 import { TailSpin } from 'react-loader-spinner';
-
+import useCitizensList from "../hooks/useCitizensList";
+import useCitizensNotes from "../hooks/useCitizensNotes";
 export interface Citizen {
     id: string;
     name: string;
@@ -13,55 +12,10 @@ export interface Citizen {
 
 const Home = () => {
 
-    const { contract } = useConnector();
-
-    const [citizenList, setCitizenList] = useState<Citizen[]>([]);
-    const [currentPage, setCurrentPage] = useState<number>(1);
-    const [modalDisplayed, setModalDisplayed] = useState<boolean>(false);
-    const [currentNote, setCurrentNote] = useState<string>('');
-    const [loading, setLoading] = useState<boolean>(false);
-
-    const pageSize = 5;
-
-    useEffect(() => {
-        let newCitizensArr: Citizen[] = [];
-
-        contract.getPastEvents('Citizen', { fromBlock: 0, toBlock: 'latest' }).then((events: any) => {
-            events.forEach((event: any) => {
-                let citizen: Citizen = {
-                    id: event.returnValues[0],
-                    name: event.returnValues[3],
-                    age: event.returnValues[1],
-                    city: event.returnValues[2]
-                }
-                newCitizensArr.push(citizen);
-            });
-            setCitizenList([...newCitizensArr]);
-        });
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
-
-    const currentTableData = useMemo(() => {
-        const firstPageIndex = (currentPage - 1) * pageSize;
-        const lastPageIndex = firstPageIndex + pageSize;
-        return citizenList.slice(firstPageIndex, lastPageIndex);
-    }, [currentPage, citizenList]);
-
-    const handleModalClose = () => {
-        setModalDisplayed(false);
-    }
-
-    const setSelectedCitizenNote = (id: string) => {
-        setLoading(true);
-        contract.methods.getNoteByCitizenId(id).call()
-        .then((result: any) => {
-            setCurrentNote(result);
-            setLoading(false);
-        });
-    }
+    const { currentTableData, citizenList, currentPage, pageSize, setCurrentPage } = useCitizensList();
+    const { modalDisplayed, setModalDisplayed, handleModalClose, currentNote, noteLoading, setSelectedCitizenNote } = useCitizensNotes();
 
     let content = currentTableData.map((citizen) => {
-
         return (
             <tr key={citizen.id} className='hover:bg-gray-200 hover:cursor-pointer active:bg-gray-400' onClick={() => {
                 setSelectedCitizenNote(citizen.id);
@@ -78,7 +32,7 @@ const Home = () => {
     return (
         <main className="h-screen flex items-center justify-center flex-col gap-5">
             {modalDisplayed && <Modal onClose={handleModalClose}>
-                {loading ? <TailSpin
+                {noteLoading ? <TailSpin
                     height="30"
                     width="30"
                     color="rgb(74 222 128)"

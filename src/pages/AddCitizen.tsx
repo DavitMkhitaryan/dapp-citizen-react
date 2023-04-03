@@ -51,7 +51,6 @@ const AddCitizen = () => {
         }
     }
 
-
     const notifySuccess = () => {
         toast.success('Citizen added successfully', {
             position: "bottom-right",
