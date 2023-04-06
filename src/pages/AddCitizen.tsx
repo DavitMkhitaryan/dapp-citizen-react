@@ -79,7 +79,7 @@ const AddCitizen = () => {
 
     return (
         <main className="h-screen flex items-center justify-center flex-col gap-5">
-            <form onSubmit={handleSubmit(onFormSubmit)} className='grid grid-cols-3 grid-rows-3 gap-x-5 gap-y-1 border border-gray-200 p-20 shadow-md m-5'>
+            <form onSubmit={handleSubmit(onFormSubmit)} className='grid grid-cols-1 grid-rows-4 gap-5 md:grid md:grid-cols-3 md:grid-rows-3 md:gap-x-5 md:gap-y-1 border border-gray-200 p-20 shadow-md'>
                 <div className="flex flex-col gap-2">
                     <label>Name</label>
                     <input {...register("name", { required: true })} className='border border-gray-200 focus:outline-green-300 rounded-md px-1 py-0.5' />
