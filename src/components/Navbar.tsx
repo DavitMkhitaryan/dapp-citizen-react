@@ -13,7 +13,7 @@ const Navbar = () => {
     return (
         <header className='flex justify-between items-center h-20 w-full border-b-2 border-gray-300 shadow-md px-12 bg-gradient-to-r from-blue-200 via-white-300 to-blue-300'>
             <div>
-                <Link to='/'><img src={isMobile ? LogoMobile : LogoDesktop} className='md:w-[14.6rem] md:h-8 hover:cursor-pointer' alt='product-logo'/></Link>
+                <Link to='/'><img src={isMobile ? LogoMobile : LogoDesktop} className='w-12 h-12 md:w-[14.6rem] md:h-8 hover:cursor-pointer' alt='product-logo'/></Link>
             </div>
             {active ?
                 <div className='flex items-center'>
