@@ -1,5 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit';
-import {citizensReducer, fetchCitizensList } from './slices/citizensSlice';
+import {citizensReducer } from './slices/citizensSlice';
 
 const store = configureStore({
     reducer: {
@@ -12,4 +12,5 @@ export type RootState = ReturnType<typeof store.getState>
 // Inferred type: {posts: PostsState, comments: CommentsState, users: UsersState}
 export type AppDispatch = typeof store.dispatch
 
-export { store, fetchCitizensList};
+export { store };
+export * from './thunks/fetchCitizensList';

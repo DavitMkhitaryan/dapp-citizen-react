@@ -13,7 +13,7 @@ const Home = () => {
     const { currentPage, setCurrentPage } = useCitizensList();
     const { modalDisplayed, setModalDisplayed, handleModalClose, currentNote, noteLoading, setSelectedCitizenNote } = useCitizensNotes();
 
-    const citizenList = useAppSelector((state) => state.citizens.citizenList);
+    const { citizenList, isLoading, error} = useAppSelector((state) => state.citizens);
     const dispatch = useAppDispatch();
 
     useEffect(() => {
