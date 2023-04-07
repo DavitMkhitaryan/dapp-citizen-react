@@ -3,12 +3,6 @@ import Pagination from "../components/Pagination";
 import { TailSpin } from 'react-loader-spinner';
 import useCitizensList from "../hooks/useCitizensList";
 import useCitizensNotes from "../hooks/useCitizensNotes";
-export interface Citizen {
-    id: string;
-    name: string;
-    age: string;
-    city: string;
-}
 
 const Home = () => {
 
