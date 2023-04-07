@@ -3,17 +3,30 @@ import Pagination from "../components/Pagination";
 import { TailSpin } from 'react-loader-spinner';
 import useCitizensList from "../hooks/useCitizensList";
 import useCitizensNotes from "../hooks/useCitizensNotes";
-export interface Citizen {
-    id: string;
-    name: string;
-    age: string;
-    city: string;
-}
+
+import { useAppSelector, useAppDispatch } from '../hooks';
+import { fetchCitizensList } from "../store";
+import { useEffect, useMemo } from "react";
 
 const Home = () => {
 
-    const { currentTableData, citizenList, currentPage, pageSize, setCurrentPage } = useCitizensList();
+    const { currentPage, setCurrentPage } = useCitizensList();
     const { modalDisplayed, setModalDisplayed, handleModalClose, currentNote, noteLoading, setSelectedCitizenNote } = useCitizensNotes();
+
+    const citizenList = useAppSelector((state) => state.citizens.citizenList);
+    const dispatch = useAppDispatch();
+
+    useEffect(() => {
+        dispatch(fetchCitizensList());
+    }, [dispatch]);
+
+    const pageSize = 5;
+
+    const currentTableData = useMemo(() => {
+        const firstPageIndex = (currentPage - 1) * pageSize;
+        const lastPageIndex = firstPageIndex + pageSize;
+        return citizenList.slice(firstPageIndex, lastPageIndex);
+    }, [currentPage, citizenList]);
 
     let content = currentTableData.map((citizen) => {
         return (
