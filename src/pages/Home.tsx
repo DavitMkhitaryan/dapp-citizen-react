@@ -13,7 +13,7 @@ const Home = () => {
     const { currentPage, setCurrentPage } = useCitizensList();
     const { modalDisplayed, setModalDisplayed, handleModalClose, currentNote, noteLoading, setSelectedCitizenNote } = useCitizensNotes();
 
-    const { citizenList, isLoading, error} = useAppSelector((state) => state.citizens);
+    const { citizenList, isLoading } = useAppSelector((state) => state.citizens);
     const dispatch = useAppDispatch();
 
     useEffect(() => {
@@ -27,20 +27,6 @@ const Home = () => {
         const lastPageIndex = firstPageIndex + pageSize;
         return citizenList.slice(firstPageIndex, lastPageIndex);
     }, [currentPage, citizenList]);
-
-    let content = currentTableData.map((citizen) => {
-        return (
-            <tr key={citizen.id} className='hover:bg-gray-200 hover:cursor-pointer active:bg-gray-400' onClick={() => {
-                setSelectedCitizenNote(citizen.id);
-                setModalDisplayed(true);
-            }}>
-                <td>{citizen.id}</td>
-                <td>{citizen.name}</td>
-                <td>{citizen.age}</td>
-                <td>{citizen.city}</td>
-            </tr>
-        );
-    });
 
     return (
         <main className="h-screen flex items-center justify-center flex-col gap-5">
@@ -61,26 +47,49 @@ const Home = () => {
                 <p>Citizens List</p>
                 <p>Total Records: <span className="font-bold text-green-500">{citizenList.length}</span></p>
             </div>
-            <table className="border-2 border-gray table-fixed w-[22rem] md:w-[50rem] h-[18rem] m-12 text-center text-sm md:text-base">
-                <thead className="border-b-2 shadow-sm py-2 bg-gray-200">
-                    <tr>
-                        <th>Id</th>
-                        <th>Name</th>
-                        <th>Age</th>
-                        <th>City</th>
-                    </tr>
-                </thead>
-                <tbody className="h-[100%]">
-                    {content}
-                </tbody>
-                <Pagination
-                    className="border-t-2 py-1.3 w-[21.8rem] md:w-[49.85rem] flex justify-center bg-gray-200"
-                    currentPage={currentPage}
-                    totalCount={citizenList.length}
-                    pageSize={pageSize}
-                    onPageChange={(page: any) => setCurrentPage(page)}
-                    siblingCount={1} />
-            </table>
+            {!isLoading ?
+                <table className="border-2 border-gray table-fixed w-[22rem] md:w-[50rem] h-[18rem] m-12 text-center text-sm md:text-base">
+                    <thead className="border-b-2 shadow-sm py-2 bg-gray-200">
+                        <tr>
+                            <th>Id</th>
+                            <th>Name</th>
+                            <th>Age</th>
+                            <th>City</th>
+                        </tr>
+                    </thead>
+                    <tbody className="h-[100%]">
+                        {currentTableData.map((citizen) => {
+                            return (
+                                <tr key={citizen.id} className='hover:bg-gray-200 hover:cursor-pointer active:bg-gray-400' onClick={() => {
+                                    setSelectedCitizenNote(citizen.id);
+                                    setModalDisplayed(true);
+                                }}>
+                                    <td>{citizen.id}</td>
+                                    <td>{citizen.name}</td>
+                                    <td>{citizen.age}</td>
+                                    <td>{citizen.city}</td>
+                                </tr>
+                            );
+                        })}
+                    </tbody>
+                    <Pagination
+                        className="border-t-2 py-1.3 w-[21.8rem] md:w-[49.85rem] flex justify-center bg-gray-200"
+                        currentPage={currentPage}
+                        totalCount={citizenList.length}
+                        pageSize={pageSize}
+                        onPageChange={(page: any) => setCurrentPage(page)}
+                        siblingCount={1} />
+                </table> :
+                <TailSpin
+                    height="30"
+                    width="30"
+                    color="rgb(74 222 128)"
+                    ariaLabel="tail-spin-loading"
+                    radius="1"
+                    wrapperStyle={{}}
+                    wrapperClass=""
+                    visible={true}
+                />}
         </main>
     );
 }
