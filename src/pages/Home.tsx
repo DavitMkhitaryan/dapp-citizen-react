@@ -1,26 +1,25 @@
 import Modal from "../components/Modal";
 import Pagination from "../components/Pagination";
 import { TailSpin } from 'react-loader-spinner';
-import useCitizensList from "../hooks/useCitizensList";
 import useCitizensNotes from "../hooks/useCitizensNotes";
 
-import { useAppSelector, useAppDispatch } from '../hooks';
+import { useAppSelector, useAppDispatch } from '../redux-hooks';
 import { fetchCitizensList } from "../store";
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 const Home = () => {
 
-    const { currentPage, setCurrentPage } = useCitizensList();
     const { modalDisplayed, setModalDisplayed, handleModalClose, currentNote, noteLoading, setSelectedCitizenNote } = useCitizensNotes();
 
     const { citizenList, isLoading } = useAppSelector((state) => state.citizens);
     const dispatch = useAppDispatch();
 
+    const [currentPage, setCurrentPage] = useState<number>(1);
+    const pageSize = 5;
+
     useEffect(() => {
         dispatch(fetchCitizensList());
     }, [dispatch]);
-
-    const pageSize = 5;
 
     const currentTableData = useMemo(() => {
         const firstPageIndex = (currentPage - 1) * pageSize;

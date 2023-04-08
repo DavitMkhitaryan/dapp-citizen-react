@@ -23,7 +23,6 @@ const fetchCitizensList = createAsyncThunk('citizens/fetchCitizensList', async (
         });
     });
 
-    console.log(newCitizensArr);
     return newCitizensArr;
 });
 
