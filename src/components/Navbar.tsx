@@ -1,5 +1,5 @@
-import LogoDesktop from '../citizen-dapp-logo.png';
-import LogoMobile from '../citizen-dapp-logo-mobile.png';
+import LogoDesktop from '../assets/citizen-dapp-logo.png';
+import LogoMobile from '../assets/citizen-dapp-logo-mobile.png';
 import { Link } from 'react-router-dom';
 import useConnector from '../hooks/useConnector';
 import Button from './Button';
