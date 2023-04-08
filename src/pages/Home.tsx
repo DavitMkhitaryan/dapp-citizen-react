@@ -9,20 +9,6 @@ const Home = () => {
     const { currentTableData, citizenList, currentPage, pageSize, setCurrentPage } = useCitizensList();
     const { modalDisplayed, setModalDisplayed, handleModalClose, currentNote, noteLoading, setSelectedCitizenNote } = useCitizensNotes();
 
-    let content = currentTableData.map((citizen) => {
-        return (
-            <tr key={citizen.id} className='hover:bg-gray-200 hover:cursor-pointer active:bg-gray-400' onClick={() => {
-                setSelectedCitizenNote(citizen.id);
-                setModalDisplayed(true);
-            }}>
-                <td>{citizen.id}</td>
-                <td>{citizen.name}</td>
-                <td>{citizen.age}</td>
-                <td>{citizen.city}</td>
-            </tr>
-        );
-    });
-
     return (
         <main className="h-screen flex items-center justify-center flex-col gap-5">
             {modalDisplayed && <Modal onClose={handleModalClose}>
@@ -52,7 +38,23 @@ const Home = () => {
                     </tr>
                 </thead>
                 <tbody className="h-[100%]">
-                    {content}
+                    {currentTableData.map((citizen) => {
+                        return (
+                            <tr
+                                key={citizen.id}
+                                className='hover:bg-gray-200 hover:cursor-pointer active:bg-gray-400'
+                                onClick={() => {
+                                    setSelectedCitizenNote(citizen.id);
+                                    setModalDisplayed(true);
+                                }}
+                            >
+                                <td>{citizen.id}</td>
+                                <td>{citizen.name}</td>
+                                <td>{citizen.age}</td>
+                                <td>{citizen.city}</td>
+                            </tr>
+                        );
+                    })}
                 </tbody>
                 <Pagination
                     className="border-t-2 py-1.3 w-[21.8rem] md:w-[49.85rem] flex justify-center bg-gray-200"
