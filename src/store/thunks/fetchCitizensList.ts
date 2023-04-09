@@ -9,21 +9,21 @@ interface Citizen {
 }
 
 const fetchCitizensList = createAsyncThunk('citizens/fetchCitizensList', async () => {
-    let newCitizensArr: Citizen[] = [];
+    
+    const response = await contract.getPastEvents('Citizen', { fromBlock: 0, toBlock: 'latest' });
 
-    await contract.getPastEvents('Citizen', { fromBlock: 0, toBlock: 'latest' }).then((events: any) => {
-        events.forEach((event: any) => {
-            let citizen: Citizen = {
-                id: event.returnValues[0],
-                name: event.returnValues[3],
-                age: event.returnValues[1],
-                city: event.returnValues[2]
-            }
-            newCitizensArr.push(citizen)
-        });
+    const citizens = response.map((event: any) => {
+        let citizen: Citizen = {
+            id: event.returnValues[0],
+            name: event.returnValues[3],
+            age: event.returnValues[1],
+            city: event.returnValues[2]
+        }
+        
+        return citizen;
     });
-
-    return newCitizensArr;
+    
+    return citizens;
 });
 
 export { fetchCitizensList }
