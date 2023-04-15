@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { TailSpin } from 'react-loader-spinner';
-import useConnector from "../hooks/useConnector";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import Button from '../components/Button';
+import Button from "components/Button";
+import useConnector from "hooks/useConnector";
 
 interface FormInputs {
     name: string;

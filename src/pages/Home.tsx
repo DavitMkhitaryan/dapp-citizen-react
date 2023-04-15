@@ -1,8 +1,8 @@
-import Modal from "../components/Modal";
-import Pagination from "../components/Pagination";
 import { TailSpin } from 'react-loader-spinner';
-import useCitizensList from "../hooks/useCitizensList";
-import useCitizensNotes from "../hooks/useCitizensNotes";
+import Modal from 'components/Modal';
+import Pagination from 'components/Pagination';
+import useCitizensList from 'hooks/useCitizensList';
+import useCitizensNotes from 'hooks/useCitizensNotes';
 
 const Home = () => {
 
